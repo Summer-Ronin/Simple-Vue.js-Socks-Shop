@@ -23,7 +23,11 @@
 						<!-- image goes here -->
 						<!--Vue binding image src to img tag-->
 						<a href="">
-							<img v-bind:src="image" alt="" />
+							<img
+								:class="{'out-of-stock-img': !in_stock}"
+								v-bind:src="image"
+								alt=""
+							/>
 						</a>
 						<!--For shorthanded V-bind, we simply reduce v-bind and keep the ":"
                             And you can do the same with url, just but the v-bind: or : in front of any href, src
@@ -34,7 +38,7 @@
 
 					<!-- Product info place -->
 					<div class="product-info">
-						<h1>{{product}}</h1>
+						<h1>{{title}}</h1>
 						<p>{{description}}</p>
 						<!--
                             However, we can use v-show to show the tag in our Dev-tool but with property of
@@ -70,14 +74,17 @@
                             Variant colors, now we add mouse-over event 
                             How this gonna work? @mouseover will call the function update_image 
                             -> override the this.image with variant.image
+
+                            Remember that backgroundColor is a js property and you wanna use css binding, add in the ""
+                            for background-color
                         -->
 						<div
 							v-for="variant in variants"
 							:key="variant.id"
 							@mouseover="update_image(variant.image)"
-						>
-							{{ variant.color }}
-						</div>
+							class="color-circle"
+							:style="{'background-color': variant.color}"
+						></div>
 
 						<ul>
 							<li v-for="size in sizes">{{size}}</li>
@@ -87,12 +94,22 @@
                             Add to cart button place. To use v-on shorthand, just replace it with @
                             <button class="button" @click="add_to_cart">Add to Cart</button>    
                         -->
-						<button class="button" @click="add_to_cart">
+						<button
+							class="button"
+							@click="add_to_cart"
+							:disabled="!in_stock"
+							:class="{ disabledButton: !in_stock }"
+						>
 							Add to Cart
 						</button>
 
-                        <!--Remove item from cart place-->
-                        <button class="button" v-on:click="remove_from_cart">
+						<!--Remove item from cart place-->
+						<button
+							class="button"
+							v-on:click="remove_from_cart"
+							:disabled="!in_stock"
+							:class="{ disabledButton: !in_stock }"
+						>
 							Remove item
 						</button>
 					</div>

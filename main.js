@@ -6,11 +6,12 @@ const app = Vue.createApp({
 		// Every return gonna need comma to separate
 		return {
 			product: "Socks",
-			description: "Hello World socks",
+            brand: 'Adidas Fake',
+			description: "Those fake socks can be used to wear indoor",
 			image: "./assets/images/socks_green.jpg",
 			url: "https://www.sockshop.co.uk/cms_media/images/475x800_fitbox-kssock938.jpg",
 			// make a conditional variable with boolean type
-			//in_stock: true
+			in_stock: true,
 
 			// For chained Conditional Logic
 			inventory: 10,
@@ -21,15 +22,22 @@ const app = Vue.createApp({
 					id: 2234,
 					color: "green",
 					image: "./assets/images/socks_green.jpg",
+                    quantity: 50
 				},
 				{
 					id: 2235,
 					color: "blue",
 					image: "./assets/images/socks_blue.jpg",
+                    quantity: 0
 				},
 			],
 			sizes: ["S", "M", "L", "XL"],
 			cart: 0,
+
+			// Style binding using Objects, call this style wherever you want to in html
+			// sock_styles:{
+			//     'background-color': 'red',
+			// }
 		};
 	},
 
@@ -41,17 +49,15 @@ const app = Vue.createApp({
 			this.cart += 1;
 		},
 
-        /**
+		/**
 		 * -1 down from cart value to increase it up when user click remove item to cart button
 		 */
 		remove_from_cart() {
-            if(this.cart == 0){
-                this.cart = this.cart    
-            }
-            else{
-                this.cart -= 1;
-            }
-			
+			if (this.cart == 0) {
+				this.cart = this.cart;
+			} else {
+				this.cart -= 1;
+			}
 		},
 
 		/**
@@ -64,4 +70,9 @@ const app = Vue.createApp({
 		},
 	},
 
+    computed:{
+        title(){
+            return this.brand + ' ' + this.product
+        }
+    }
 });
