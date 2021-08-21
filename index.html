@@ -55,8 +55,8 @@
 						<!-- <p v-if="in_stock">In Stock</p>
                         <p v-else="in_stock">Out of stock</p> -->
 
-						<p v-if="inventory > 10">In stock</p>
-						<p v-else-if="inventory <= 10 && inventory > 0">
+						<p v-if="in_stock > 10">In stock</p>
+						<p v-else-if="in_stock <= 10 && in_stock > 0">
 							Almost sold out! Hurry up
 						</p>
 						<p v-else>Out of stock</p>
@@ -79,9 +79,9 @@
                             for background-color
                         -->
 						<div
-							v-for="variant in variants"
+							v-for="(variant, index) in variants"
 							:key="variant.id"
-							@mouseover="update_image(variant.image)"
+							@mouseover="update_variant(index)"
 							class="color-circle"
 							:style="{'background-color': variant.color}"
 						></div>
