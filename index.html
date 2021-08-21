@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
-		<title>Vue Mastery</title>
+		<title>Vue Socks</title>
 		<!-- Import Styles -->
 		<link rel="stylesheet" href="./assets/styles.css" />
 		<!-- Import Vue.js -->
@@ -12,6 +12,8 @@
 		<div id="app">
 			<!-- Nav bar place -->
 			<div class="nav-bar"></div>
+
+			<div class="cart">Cart({{ cart }})</div>
 
 			<!-- Product display place -->
 			<div class="product-display">
@@ -64,13 +66,35 @@
 							<li v-for="detail in details">{{detail}}</li>
 						</ul>
 
-						<div v-for="variant in variants" :key="variant.id">
+						<!--
+                            Variant colors, now we add mouse-over event 
+                            How this gonna work? @mouseover will call the function update_image 
+                            -> override the this.image with variant.image
+                        -->
+						<div
+							v-for="variant in variants"
+							:key="variant.id"
+							@mouseover="update_image(variant.image)"
+						>
 							{{ variant.color }}
 						</div>
 
 						<ul>
 							<li v-for="size in sizes">{{size}}</li>
 						</ul>
+
+						<!--
+                            Add to cart button place. To use v-on shorthand, just replace it with @
+                            <button class="button" @click="add_to_cart">Add to Cart</button>    
+                        -->
+						<button class="button" @click="add_to_cart">
+							Add to Cart
+						</button>
+
+                        <!--Remove item from cart place-->
+                        <button class="button" v-on:click="remove_from_cart">
+							Remove item
+						</button>
 					</div>
 				</div>
 			</div>
