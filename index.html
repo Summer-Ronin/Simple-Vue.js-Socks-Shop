@@ -13,16 +13,27 @@
 			<!-- Nav bar place -->
 			<div class="nav-bar"></div>
 
-			<div class="cart">Cart({{ cart }})</div>
+			<div class="cart">Cart({{ cart.length }})</div>
 
-			<product-display :premium="premium"></product-display>
+			<!-- // premium is a prop 
+                And add to cart and remove play as event listener
+            -->
+			<product-display
+				:premium="premium"
+				@add_to_cart="update_cart"
+				@remove_from_cart="remove_by_id"
+			></product-display>
 		</div>
 
 		<!-- Import Js -->
 		<script src="./main.js"></script>
 		<!-- Import Components -->
 		<script src="./components/product_display.js"></script>
-        <script src="./components/product_details.js"></script>
+		<script src="./components/product_details.js"></script>
+        <!--Review Form-->
+        <script src="./components/review_form.js"></script>
+        <!--Review list-->
+        <script src="./components/review_list.js"></script>
 
 		<!--Mounting Vue App-->
 		<script>

@@ -9,104 +9,105 @@ app.component("product-display", {
 	template:
 		/*html*/
 		`
-    <!-- Product display place -->
-    <div class="product-display">
-        <!-- Product container -->
-        <div class="product-container">
-            <div class="product-image">
-                <!-- image goes here -->
-                <!--Vue binding image src to img tag-->
-                <a href="">
-                    <img
-                        :class="{'out-of-stock-img': !in_stock}"
-                        v-bind:src="image"
-                        alt=""
-                    />
-                </a>
-                <!--For shorthanded V-bind, we simply reduce v-bind and keep the ":"
-                    And you can do the same with url, just but the v-bind: or : in front of any href, src
-                    anything that you want to bind things to
-                -->
-                <!-- <img :src="image" alt="" /> -->
+            <!-- Product display place -->
+            <div class="product-display">
+                <!-- Product container -->
+                <div class="product-container">
+                    <div class="product-image">
+                        <!-- image goes here -->
+                        <!--Vue binding image src to img tag-->
+                        <a href="">
+                            <img
+                                :class="{'out-of-stock-img': !in_stock}"
+                                v-bind:src="image"
+                                alt=""
+                            />
+                        </a>
+                        <!--For shorthanded V-bind, we simply reduce v-bind and keep the ":"
+                            And you can do the same with url, just but the v-bind: or : in front of any href, src
+                            anything that you want to bind things to
+                        -->
+                        <!-- <img :src="image" alt="" /> -->
+                    </div>
+
+                    <!-- Product info place -->
+                    <div class="product-info">
+                        <h1>{{title}}</h1>
+                        <p>{{description}}</p>
+                        <!--
+                            However, we can use v-show to show the tag in our Dev-tool but with property of
+                            display: none and v-show works just like the v-if but show it not turning it 
+                            into a comment 
+                        -->
+                        <!-- <p v-show="in_stock">In Stock</p> -->
+
+                        <!--
+                            Using v-if: to conditionally decide when to display the p tag
+                            Vue will simply turn the tag into a comment if return type is false
+                            To me, I think v-if and v-else are more friendly to use, why? Everyone loves if-else thing :)
+                        -->
+                        <!-- <p v-if="in_stock">In Stock</p>
+                        <p v-else="in_stock">Out of stock</p> -->
+
+                        <p v-if="in_stock > 10">In stock</p>
+                        <p v-else-if="in_stock <= 10 && in_stock > 0">
+                            Almost sold out! Hurry up
+                        </p>
+                        <p v-else>Out of stock</p>
+
+                        <p>Shipping: {{ shipping }}</p>
+                        <product-details></product-details>
+                    
+                        <p v-if="on_sale">On Sale!!!</p>
+
+                        <!--
+                            Variant colors, now we add mouse-over event 
+                            How this gonna work? @mouseover will call the function update_image 
+                            -> override the this.image with variant.image
+
+                            Remember that backgroundColor is a js property and you wanna use css binding, add in the ""
+                            for background-color
+                        -->
+                        <div
+                            v-for="(variant, index) in variants"
+                            :key="variant.id"
+                            @mouseover="update_variant(index)"
+                            class="color-circle"
+                            :style="{'background-color': variant.color}"
+                        ></div>
+
+                        <ul>
+                            <li v-for="size in sizes">{{size}}</li>
+                        </ul>
+
+                        <!--
+                            Add to cart button place. To use v-on shorthand, just replace it with @
+                            <button class="button" @click="add_to_cart">Add to Cart</button>    
+                        -->
+                        <button
+                            class="button"
+                            @click="add_to_cart"
+                            :disabled="!in_stock"
+                            :class="{ disabledButton: !in_stock }"
+                        >
+                            Add to Cart
+                        </button>
+
+                        <!--Remove item from cart place-->
+                        <button
+                            class="button"
+                            v-on:click="remove_from_cart"
+                            :disabled="!in_stock"
+                            :class="{ disabledButton: !in_stock }"
+                        >
+                            Remove item
+                        </button>
+                    </div>
+                </div>
+                <review-list v-if="reviews.length" :reviews="reviews"></review-list>
+                <review-form @review-submitted="add_review"></review-form>
             </div>
-
-            <!-- Product info place -->
-            <div class="product-info">
-                <h1>{{title}}</h1>
-                <p>{{description}}</p>
-                <!--
-                    However, we can use v-show to show the tag in our Dev-tool but with property of
-                    display: none and v-show works just like the v-if but show it not turning it 
-                    into a comment 
-                -->
-                <!-- <p v-show="in_stock">In Stock</p> -->
-
-                <!--
-                    Using v-if: to conditionally decide when to display the p tag
-                    Vue will simply turn the tag into a comment if return type is false
-                    To me, I think v-if and v-else are more friendly to use, why? Everyone loves if-else thing :)
-                -->
-                <!-- <p v-if="in_stock">In Stock</p>
-                <p v-else="in_stock">Out of stock</p> -->
-
-                <p v-if="in_stock > 10">In stock</p>
-                <p v-else-if="in_stock <= 10 && in_stock > 0">
-                    Almost sold out! Hurry up
-                </p>
-                <p v-else>Out of stock</p>
-
-                <p>Shipping: {{ shipping }}</p>
-                <product-details></product-details>
-            
-                <p v-if="on_sale">On Sale!!!</p>
-
-                <!--
-                    Variant colors, now we add mouse-over event 
-                    How this gonna work? @mouseover will call the function update_image 
-                    -> override the this.image with variant.image
-
-                    Remember that backgroundColor is a js property and you wanna use css binding, add in the ""
-                    for background-color
-                -->
-                <div
-                    v-for="(variant, index) in variants"
-                    :key="variant.id"
-                    @mouseover="update_variant(index)"
-                    class="color-circle"
-                    :style="{'background-color': variant.color}"
-                ></div>
-
-                <ul>
-                    <li v-for="size in sizes">{{size}}</li>
-                </ul>
-
-                <!--
-                    Add to cart button place. To use v-on shorthand, just replace it with @
-                    <button class="button" @click="add_to_cart">Add to Cart</button>    
-                -->
-                <button
-                    class="button"
-                    @click="add_to_cart"
-                    :disabled="!in_stock"
-                    :class="{ disabledButton: !in_stock }"
-                >
-                    Add to Cart
-                </button>
-
-                <!--Remove item from cart place-->
-                <button
-                    class="button"
-                    v-on:click="remove_from_cart"
-                    :disabled="!in_stock"
-                    :class="{ disabledButton: !in_stock }"
-                >
-                    Remove item
-                </button>
-            </div>
-        </div>
-        <review-form style="text-align: center;"></review-form>
-    </div>
-    `,
+        `,
 	data() {
 		// Every return gonna need comma to separate
 		return {
@@ -141,6 +142,7 @@ app.component("product-display", {
 			],
 			sizes: ["S", "M", "L", "XL"],
 			cart: 0,
+            reviews: []
 
 			// Style binding using Objects, call this style wherever you want to in html
 			// sock_styles:{
@@ -172,6 +174,10 @@ app.component("product-display", {
 			// We overide this.image value with the current image path
 			this.selectedVariant = index;
 		},
+
+        add_review(review){
+            this.reviews.push(review)
+        }
 	},
 
 	computed: {
