@@ -56,7 +56,8 @@ app.component("product-display", {
                 <p v-else>Out of stock</p>
 
                 <p>Shipping: {{ shipping }}</p>
-
+                <product-details></product-details>
+            
                 <p v-if="on_sale">On Sale!!!</p>
 
                 <!--
@@ -114,7 +115,6 @@ app.component("product-display", {
 			// For chained Conditional Logic
 			inventory: 10,
 			on_sale: true,
-			details: ["50% cotton", "30% wool", "20% polyester"],
 			selectedVariant: 0,
 			variants: [
 				// variant 0
