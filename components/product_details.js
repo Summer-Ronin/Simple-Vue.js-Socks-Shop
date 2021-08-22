@@ -1,10 +1,16 @@
 app.component("product-details", {
-	props: {
-		details: {
-			type: Array,
-			required: true,
-		},
-	},
+	/**
+	 * You will need to use details as prop when you dont load detials as a local data like I do here and catch it in
+     * <product-details :details="details"></product-details>
+	 * Or just it be 
+	 */
+
+	// props: {
+	// 	details: {
+	// 		type: Array,
+	// 		required: true,
+	// 	},
+	// },
 
 	template:
 		/*html*/
@@ -17,9 +23,9 @@ app.component("product-details", {
         </ul>
         `,
 
-    data(){
-        return{
-            details: ["50% cotton", "30% wool", "20% polyester"],
-        }
-    }
+	data() {
+		return {
+			details: ["50% cotton", "30% wool", "20% polyester"],
+		};
+	},
 });

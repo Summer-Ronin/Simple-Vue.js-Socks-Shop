@@ -104,6 +104,7 @@ app.component("product-display", {
                 </button>
             </div>
         </div>
+        <review-form style="text-align: center;"></review-form>
     </div>
     `,
 	data() {
@@ -153,18 +154,14 @@ app.component("product-display", {
 		 * +1 up to cart value to increase it up when user click add to cart button
 		 */
 		add_to_cart() {
-			this.cart += 1;
+            this.$emit('add_to_cart', this.variants[this.selectedVariant].id)
 		},
 
 		/**
 		 * -1 down from cart value to increase it up when user click remove item to cart button
 		 */
 		remove_from_cart() {
-			if (this.cart == 0) {
-				this.cart = this.cart;
-			} else {
-				this.cart -= 1;
-			}
+			this.$emit('remove_from_cart', this.variants[this.selectedVariant].id)
 		},
 
 		/**
